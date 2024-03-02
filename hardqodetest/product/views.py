@@ -134,7 +134,7 @@ class GroupAllocation(APIView):
         if request.user.is_authenticated:
             id = request.data['id']
             try:
-                product = Product.objects.get(id=id)
+                product = Product.objects.prefetch_related('groups').get(id=id)
             except Product.DoesNotExist:
                 return Response({'message': 'Такой продукт не найден'}, status=400)
             user = request.user
